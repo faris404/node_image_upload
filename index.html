@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>File upload</title>
+    <script>
+        function upload() {
+            let file = document.getElementById('img')
+            let capt = document.getElementById('capt').value
+            let fd = new FormData()
+            fd.append('name',file.files[0].name)
+            fd.append('photo', file.files[0])
+            fd.append('capt', capt)
+            console.log(fd);
+            fetch('http://localhost:5000/happy_couple', {
+                method: 'POST',
+                body:fd
+            })
+                .then(response => response.json())
+                .then(result => {
+                    console.log('Success:', result);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+                
+        }
+    </script>
+</head>
+
+<body>
+    <form id='frm' onsubmit="return false" enctype="multipart/form-data">
+        <input id='img' type="file" name="avatar" accept="image/*" />
+        <input type="text" id="capt">
+        <button onclick="upload()">Upload</button>
+    </form>
+</body>
+
+</html>
